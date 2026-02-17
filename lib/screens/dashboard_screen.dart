@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../widgets/glass_card.dart';
 import '../core/theme.dart';
+import '../screens/food_log_screen.dart';
+import '../screens/add_event_screen.dart';
 import '../services/ai_service.dart';
 import '../models/user_model.dart';
 
@@ -128,6 +130,43 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                 const SizedBox(height: 20),
 
                 // AI Diet Plan
+                // Action Buttons
+                Row(
+                  children: [
+                    Expanded(
+                      child: _actionButton(
+                        context,
+                        "Log Food",
+                        Icons.restaurant,
+                        AppColors.saffron,
+                        () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (c) => const FoodLogScreen(),
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 15),
+                    Expanded(
+                      child: _actionButton(
+                        context,
+                        "Special Day",
+                        Icons.celebration,
+                        AppColors.teal,
+                        () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (c) => const AddEventScreen(),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 30),
+
+                // AI Diet Plan
                 Text(
                   "Your AI Diet Plan (Indian)",
                   style: Theme.of(context).textTheme.headlineSmall,
@@ -164,6 +203,37 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
               ],
             ),
           ),
+        ),
+      ),
+    );
+  }
+
+  Widget _actionButton(
+    BuildContext context,
+    String title,
+    IconData icon,
+    Color color,
+    VoidCallback onTap,
+  ) {
+    return InkWell(
+      onTap: onTap,
+      child: Container(
+        height: 60,
+        decoration: BoxDecoration(
+          color: color.withOpacity(0.15),
+          borderRadius: BorderRadius.circular(15),
+          border: Border.all(color: color.withOpacity(0.3)),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(icon, color: color, size: 20),
+            const SizedBox(width: 8),
+            Text(
+              title,
+              style: TextStyle(color: color, fontWeight: FontWeight.bold),
+            ),
+          ],
         ),
       ),
     );

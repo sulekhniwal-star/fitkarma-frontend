@@ -24,12 +24,35 @@ class PlanNotifier extends Notifier<double> {
     return target < 1200 ? 1200 : target;
   }
 
-  void resetPlanDueToMissedDays(
-    UserModel user,
-    int daysPassed,
-    int daysMissed,
-  ) {
-    // Implementation logic
+  double recalculateWithRemainingDays(UserModel user) {
+    if (user.created == null ||
+        user.targetDays == null ||
+        user.weight == null ||
+        user.goalWeight == null)
+      return 2000;
+
+    final goalDate = user.created!.add(Duration(days: user.targetDays!));
+    final remainingDays = goalDate.difference(DateTime.now()).inDays;
+
+    if (remainingDays <= 0) return 1500; // Maintenance or finished
+
+    double bmr = FitnessCalculator.calculateBMR(
+      user.weight!,
+      user.height ?? 170,
+      user.age ?? 25,
+      'male', // Default for now
+    );
+    double tdee = FitnessCalculator.calculateTDEE(
+      bmr,
+      user.activityLevel ?? 'moderate',
+    );
+
+    return calculateDailyTarget(
+      currentWeight: user.weight!,
+      targetWeight: user.goalWeight!,
+      remainingDays: remainingDays,
+      tdee: tdee,
+    );
   }
 }
 

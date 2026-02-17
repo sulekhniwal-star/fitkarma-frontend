@@ -8,6 +8,8 @@ class UserModel {
   final int? targetDays;
   final String? activityLevel;
 
+  final DateTime? created;
+
   UserModel({
     required this.id,
     required this.email,
@@ -17,6 +19,7 @@ class UserModel {
     this.goalWeight,
     this.targetDays,
     this.activityLevel,
+    this.created,
   });
 
   factory UserModel.fromRecord(Map<String, dynamic> data) {
@@ -29,6 +32,7 @@ class UserModel {
       goalWeight: data['goal_weight']?.toDouble(),
       targetDays: data['target_days'],
       activityLevel: data['activity_level'],
+      created: data['created'] != null ? DateTime.parse(data['created']) : null,
     );
   }
 }

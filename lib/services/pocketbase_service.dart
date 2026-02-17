@@ -2,8 +2,8 @@ import 'package:pocketbase/pocketbase.dart';
 
 class PocketBaseService {
   static final PocketBase pb = PocketBase(
-    'https://fitkarma-backend-production.up.railway.app',
-  ); // User should update this with their Railway URL
+    'https://fitkarma-frontend-production.up.railway.app',
+  );
 
   static Future<bool> login(String email, String password) async {
     try {
